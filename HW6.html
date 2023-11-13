@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--Junqian Wang, BIS-3023, 11/12/2023,hw6-->
+<!-- This code is for Homework6 contact information form website-->
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HW6</title>
+    <link rel="stylesheet" href="Contact.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+</head>
+
+<script>
+
+// class new contact parts  to create contact objects with necessary details
+class Person {
+            constructor(firstName, lastName, street, city, state, zip, phone, email) {
+                this.firstName = firstName;
+                this.lastName = lastName;
+                this.street = street;
+                this.city = city;
+                this.state = state;
+                this.zip = zip;
+                this.phone = phone;
+                this.email = email;
+            }}
+
+    let list= []  //  Array to store Contact objects
+    function formSubmit() {
+        // cite from: https://www.w3schools.com/jsref/event_preventdefault.asp  https://stackoverflow.com/questions/72349480/how-can-i-display-a-list-of-contacts-with-name-age-location-and-phone-props-i
+        event.preventDefault()
+
+        const contact = new Person(
+            $('#firstname').val(), 
+            $('#lastname').val(),
+            $('#street').val(),
+            $('#city').val(),
+            $('#state').val(),
+            $('#zip').val(),
+            $('#tel').val(),
+            $('#email').val())
+            // create more new contact
+        list.push(contact) ;
+        display();
+        document.getElementById('firstName').focus();
+    }
+
+    function display(){
+        //cite from: https://chat.openai.com/c/4f62aca6-c1a7-49b2-99cf-e1c16da9b37b for this list.sort((a,b))
+        list.sort((a, b) => a.lastName.localeCompare(b.lastName));
+        document.getElementById("div1").innerHTML = ""
+      // for loop  
+        for (i2 = 0; i2 < list.length; i2++) {
+            x = list[i2]
+            
+            document.getElementById("div1").innerHTML += "<b>" + 
+            x.firstName + "\n" +
+            x.lastName + "</b>" + "<br>" +
+            x.street + "<br>" +
+            x.city + " , " +
+            x.state + " " +
+            x.zip + "<br>" +
+            x.tel + "<br>" +
+            x.email + "<br><br>"
+        }
+        clear()
+    }
+
+    function clear(){
+        $('#firstname').val("")
+        $('#lastname').val("")
+        $('#street').val("")
+        $('#city').val("")
+        $('#state').val("")
+        $('#zip').val("")
+        $('#tel').val("")
+        $('#email').val("")
+
+    }
+
+    function formScreen(){
+        document.getElementById("form1").hidden = false
+        document.getElementById("div1").hidden = true
+    }
+    function displayScreen(){
+        document.getElementById("form1").hidden = true
+        document.getElementById("div1").hidden = false
+    }
+
+</script>
+
+<body>
+<header>
+    The Employees Contact List <br>
+    Enter your contact information <br>
+    Click 'Form Screen' or 'Display Screen' to operate this form 
+</header>
+
+<nav id="nav">
+    <button type="button" onclick="formScreen()">Form Screen</button>
+    <button type="button" onclick="displayScreen()">Display Screen</button>
+</nav>
+<!-- cite from: chatgpt, -->
+<form id="form1" onsubmit="formSubmit(); return false;">
+    <label for="firstname">First Name:</label><br>
+    <input id="firstname" type="text" autofocus required><br>
+    <label for="lastname">Last Name:</label><br>
+    <input id="lastname" type="text" required><br>
+
+    <label for="street">Street Address:</label><br>
+    <input id="street" type="text"><br>
+
+    <label for="city">City:</label><br>
+    <input id="city" type="text"><br>
+
+    <label for="state">State:</label><br>
+    
+    
+    <input id="state" type="text" maxlength="2"  pattern="[a-zA-Z]+"><br>
+
+    <label for="zip">Zip Code:</label><br>
+    <input id="zip" type="number" maxlength="5"><br>
+
+    <label for="tel">Telephone:</label><br>
+    <input id="tel" type="tel" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" required><br>
+
+    <label for="email">Email:</label><br>
+    <input id="email" type="email" required><br>
+
+    <br>
+    <button type="submit" value="Submit">Submit Contact</button>
+</form>
+
+<div hidden id="div1"> >
+</div>
+
+</body>
+
+</html>
